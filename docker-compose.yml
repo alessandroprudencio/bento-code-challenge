@@ -1,0 +1,27 @@
+services:
+  firebase-emulator:
+    build:
+      context: ./firebase
+      args:
+        FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+    ports:
+      - 8081:8081 # firebase
+      - 4000:4000 # ui
+      - 9150:9150 # gRPC
+      - 9000:9001 # database
+    volumes:
+      - ./firebase/.cache/firebase/emulators/:/root/.cache/firebase/emulators/
+    env_file: .env
+
+  bento-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:3000
+    env_file: .env
+    depends_on:
+      - firebase-emulator
+    volumes:
+      - ./:/app
+      - /app/node_modules
