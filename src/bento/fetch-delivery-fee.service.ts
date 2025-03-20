@@ -7,7 +7,6 @@ import { DeliveryFeePayloadDto } from 'src/delivery/dto/delivery-fee-payload.dto
 @Injectable()
 export class FetchDeliveryFeeService extends FetchBaseService {
   async fetch(payload: DeliveryFeePayloadDto): Promise<IDeliveryFeeResponse> {
-    console.log(JSON.stringify(payload));
     const response = await this.makeHttpRequest<
       IDeliveryFeeRequest,
       IDeliveryFeeResponse
