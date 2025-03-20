@@ -38,7 +38,7 @@ export default abstract class FetchBaseService {
 
     if (method === 'post' && data) requestConfig.data = data;
 
-    const { data: responseData } = await firstValueFrom(
+    const { data: responseData, status } = await firstValueFrom(
       this.httpService
         .request<TResponse>({
           method,
@@ -52,6 +52,13 @@ export default abstract class FetchBaseService {
           }),
         ),
     );
+
+    this.logger.debug(`Success ${method.toUpperCase()} ${path}`, {
+      context: {
+        statusCode: status,
+        truncatedResponse: responseData,
+      },
+    });
 
     return responseData;
   }

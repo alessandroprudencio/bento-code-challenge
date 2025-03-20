@@ -15,6 +15,7 @@ import {
   roundToTwoDecimals,
 } from 'src/common/utils/financial-utils';
 import { DeliveryFeeCalculatorService } from './calculator/delivery-fee-calculator.service';
+import { DeliveryFeeQueryDto } from './dto/delivery-fee-query.dto';
 
 @Injectable()
 export class DeliveryService {
@@ -27,11 +28,15 @@ export class DeliveryService {
     private deliveryFeeCalculator: DeliveryFeeCalculatorService,
   ) {}
 
-  async getDeliveryFee(@Req() request: Request) {
+  async getDeliveryFee(@Req() request: Request, query: DeliveryFeeQueryDto) {
     try {
-      const profile = await this.fetchUserProfileService.fetch();
+      const uuid =
+        query.userId ?? (await this.fetchUserProfileService.fetch()).uuid;
 
-      const responseFee = await this.fetchDeliveryFeeService.fetch(profile);
+      const responseFee = await this.fetchDeliveryFeeService.fetch({
+        uuid,
+        ...query,
+      });
 
       const userAgent = request.headers['user-agent'] || 'Unknown User-Agent';
 
@@ -44,7 +49,7 @@ export class DeliveryService {
 
       await this.saveData({
         ...dataToResponse,
-        userUUID: profile.uuid,
+        userUUID: uuid,
         coordinates: responseFee.coordinates,
         merchantID: responseFee.merchantID,
         userAgent,

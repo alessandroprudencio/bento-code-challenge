@@ -8,12 +8,6 @@ export function setupSwagger(app: INestApplication) {
       'RESTful API for integration with the Bento API, calculation of delivery rate with margin and storage of requests.',
     )
     .setVersion('1.0')
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      bearerFormat: 'JWT',
-      in: 'header',
-    })
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {
