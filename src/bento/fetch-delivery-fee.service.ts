@@ -30,23 +30,18 @@ export class FetchDeliveryFeeService extends FetchBaseService {
       user: { uuid: profile.uuid },
     };
 
-    try {
-      const response = await this.makeHttpRequest<
-        IDeliveryFeeRequest,
-        IDeliveryFeeResponse
-      >('post', '/delivery/fee', payload);
+    const response = await this.makeHttpRequest<
+      IDeliveryFeeRequest,
+      IDeliveryFeeResponse
+    >('post', '/delivery/fees', payload);
 
-      return {
-        ...response,
-        coordinates: {
-          addressFrom: payload.addressFrom.coordinates,
-          addressTo: payload.addressTo.coordinatesAdjustment,
-        },
-        merchantID: payload.merchant.id,
-      };
-    } catch (error) {
-      this.logger.error(`Fetch delivery fee failed: ${error}`);
-      throw error;
-    }
+    return {
+      ...response,
+      coordinates: {
+        addressFrom: payload.addressFrom.coordinates,
+        addressTo: payload.addressTo.coordinatesAdjustment,
+      },
+      merchantID: payload.merchant.id,
+    };
   }
 }
