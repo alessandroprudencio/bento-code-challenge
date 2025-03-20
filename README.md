@@ -1,99 +1,146 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Bento API Integration Project
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS application integrating with Bento API and Firebase emulator suite.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Getting Started
 
-## Description
+### Prerequisites
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js v20+
+- Docker & Docker Compose
+- Firebase CLI (optional for emulator UI)
+- Bento API account credentials
 
-## Project setup
+## ⚙️ Environment Setup
 
-```bash
-$ yarn install
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-org/bento-integration.git
+   cd bento-integration
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Configuration**  
+   Create `.env` file from template:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` with these values:
+
+   | Variable                  | Description                    | Required | Example                    | How to Obtain                            |
+   | ------------------------- | ------------------------------ | -------- | -------------------------- | ---------------------------------------- |
+   | `NODE_ENV`                | Execution environment          | No       | `development`              | -                                        |
+   | `PORT`                    | Application port               | No       | `3000`                     | -                                        |
+   | `FIREBASE_PROJECT_ID`     | Firebase project ID            | Yes      | `bento-api-project`        | Firebase Console                         |
+   | `FIRESTORE_EMULATOR_HOST` | Firestore Emulator host        | Emulator | `firebase-emulator:8081`   | Keep default for Docker                  |
+   | `BENTO_API_URL`           | Bento API base URL             | Yes      | `https://api.bento.com/v3` | Bento documentation                      |
+   | `BENTO_API_TOKEN`         | Bento API authentication token | Yes      | `Bearer eyJhbGci...`       | [See below](#-obtaining-bento_api_token) |
+
+## 🔑 Obtaining BENTO_API_TOKEN
+
+1. Login to Bento web interface
+2. Open Chrome DevTools (F12) → Network tab
+3. Find any API request after login
+4. Copy the `Authorization` header value (Bearer token)
+5. Set in `.env`:
+   ```ini
+   BENTO_API_TOKEN=Bearer copied_token_value
+   ```
+
+### ⚠️ **Important Notes:**
+
+- **Permissions**: The token inherits all permissions of the authenticated account
+- **Validity**: Tokens expire after 1 hour of inactivity
+- **Security**: Never expose/share this token publicly
+
+---
+
+### 🔄 **How to Revoke the Token:**
+
+1. Visit: [Google Account Security](https://myaccount.google.com/security)
+2. Navigate to "Third-party apps with account access"
+3. Revoke access for "Firebase CLI"
+
+---
+
+### 📚 **Official Documentation:**
+
+- [Firebase CI Login Documentation](https://firebase.google.com/docs/cli#cli-ci-systems)
+- [Managing API Keys & Tokens](https://firebase.google.com/docs/projects/api-keys)
+
+---
+
+## 🐳 Docker Services
+
+### Service Architecture
+
+```yaml
+services:
+  firebase-emulator:
+    ports:
+      - 8081:8081 # Firebase Emulator
+      - 4000:4000 # Emulator UI
+      - 9150:9150 # gRPC
+      - 9000:9001 # Realtime Database
+
+  bento-api:
+    ports:
+      - 3001:3000 # NestJS Application
 ```
 
-## Compile and run the project
+### Start Services
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+docker-compose up --build
 ```
 
-## Run tests
+## 🛠 Development Workflow
+
+### Local Development
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+npm run start:dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Docker Development
 
 ```bash
-$ yarn install -g mau
-$ mau deploy
+docker-compose up bento-api --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Key Endpoints
 
-## Resources
+- API Docs: `http://localhost:3001/api/docs`
+- Firebase UI: `http://localhost:4000`
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🧪 Testing API
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+curl -X GET http://localhost:3001/api/delivery-fees
+```
 
-## Support
+## 🚨 Troubleshooting
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Common Issues:**
 
-## Stay in touch
+1. **Missing .env variables**  
+   Verify all required variables are set in `.env`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+2. **Docker port conflicts**  
+   Check running containers:
 
-## License
+   ```bash
+   docker ps
+   ```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+3. **Invalid Bento token**
+   - Verify token format: `Bearer <token>`
+   - Re-authenticate with Bento web interface
