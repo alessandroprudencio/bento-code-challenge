@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { DeliveryModule } from './delivery/delivery.module';
 import { RequestsModule } from './requests/requests.module';
 import { FirestoreModule } from './firestore/firestore.module';
 import { ConfigModule } from '@nestjs/config';
@@ -16,6 +17,7 @@ import bentoConfig from './config/bento.config';
     FirestoreModule,
     RequestsModule,
     BentoModule,
+    DeliveryModule,
   ],
   controllers: [],
   providers: [],

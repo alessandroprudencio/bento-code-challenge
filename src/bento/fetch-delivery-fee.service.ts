@@ -33,7 +33,7 @@ export class FetchDeliveryFeeService extends FetchBaseService {
     const response = await this.makeHttpRequest<
       IDeliveryFeeRequest,
       IDeliveryFeeResponse
-    >('post', '/delivery/fees', payload);
+    >('post', '/delivery/fee', payload);
 
     return {
       ...response,
