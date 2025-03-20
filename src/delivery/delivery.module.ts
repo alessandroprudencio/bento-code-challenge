@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DeliveryService } from './delivery.service';
 import { DeliveryController } from './delivery.controller';
 import { DeliveryFeeRepository } from './repositories/delivery-fee.repository';
-import { DeliveryCalculateFeeService } from './calculate-fee/delivery-calculate-fee.service';
+import { DeliveryFeeCalculatorService } from './calculator/delivery-fee-calculator.service';
 
 @Module({
   imports: [],
@@ -10,7 +10,7 @@ import { DeliveryCalculateFeeService } from './calculate-fee/delivery-calculate-
   providers: [
     DeliveryFeeRepository,
     DeliveryService,
-    DeliveryCalculateFeeService,
+    DeliveryFeeCalculatorService,
   ],
 })
 export class DeliveryModule {}

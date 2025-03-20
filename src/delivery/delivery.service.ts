@@ -14,7 +14,7 @@ import {
   convertFeeInDollars,
   roundToTwoDecimals,
 } from 'src/common/utils/financial-utils';
-import { DeliveryCalculateFeeService } from './calculate-fee/delivery-calculate-fee.service';
+import { DeliveryFeeCalculatorService } from './calculator/delivery-fee-calculator.service';
 
 @Injectable()
 export class DeliveryService {
@@ -24,7 +24,7 @@ export class DeliveryService {
     private fetchUserProfileService: FetchUserProfileService,
     private fetchDeliveryFeeService: FetchDeliveryFeeService,
     private deliveryFeeRepository: DeliveryFeeRepository,
-    private deliveryCalculateFee: DeliveryCalculateFeeService,
+    private deliveryFeeCalculator: DeliveryFeeCalculatorService,
   ) {}
 
   async getDeliveryFee(@Req() request: Request) {
@@ -37,7 +37,7 @@ export class DeliveryService {
 
       const dataToResponse = {
         originalFee: convertFeeInDollars(responseFee.fee),
-        newFee: this.deliveryCalculateFee.calculateNewFee(responseFee.fee),
+        newFee: this.deliveryFeeCalculator.calculate(responseFee.fee),
         deliveryTime: responseFee.deliveryTime,
         distanceMeters: roundToTwoDecimals(responseFee.distanceMeters),
       };
