@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  Logger,
-  Req,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Request } from 'express';
 import { DeliveryFeeRepository } from './repositories/delivery-fee.repository';
 import { FetchDeliveryFeeService } from 'src/bento/fetch-delivery-fee.service';
@@ -15,7 +9,9 @@ import {
   roundToTwoDecimals,
 } from 'src/common/utils/financial-utils';
 import { DeliveryFeeCalculatorService } from './calculator/delivery-fee-calculator.service';
-import { DeliveryFeeQueryDto } from './dto/delivery-fee-query.dto';
+import { DeliveryFeePayloadDto } from './dto/delivery-fee-payload.dto';
+import { instanceToPlain } from 'class-transformer';
+import { DeliveryFeeEntity } from './entities/delivery-fee.entity';
 
 @Injectable()
 export class DeliveryService {
@@ -28,14 +24,21 @@ export class DeliveryService {
     private deliveryFeeCalculator: DeliveryFeeCalculatorService,
   ) {}
 
-  async getDeliveryFee(@Req() request: Request, query: DeliveryFeeQueryDto) {
+  async calculateDeliveryFee(request: Request, body: DeliveryFeePayloadDto) {
     try {
       const uuid =
-        query.userId ?? (await this.fetchUserProfileService.fetch()).uuid;
+        body.user.uuid ?? (await this.fetchUserProfileService.fetch()).uuid;
+
+      if (!body.user.uuid && !uuid) {
+        throw new HttpException(
+          'User ID or UUID is required',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       const responseFee = await this.fetchDeliveryFeeService.fetch({
-        uuid,
-        ...query,
+        ...body,
+        user: { uuid },
       });
 
       const userAgent = request.headers['user-agent'] || 'Unknown User-Agent';
@@ -60,9 +63,11 @@ export class DeliveryService {
         message: null,
       };
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else if (error instanceof Error) {
         this.logger.error(
-          `Error fetching delivery fee: ${error.message}`,
+          `Error calculate delivery fee: ${error.message}`,
           error.stack,
         );
       } else {
@@ -99,7 +104,9 @@ export class DeliveryService {
         userAgent,
       };
 
-      await this.deliveryFeeRepository.create(docData);
+      const plainData = instanceToPlain(docData) as DeliveryFeeEntity;
+
+      await this.deliveryFeeRepository.create(plainData);
     } catch (error) {
       if (error instanceof Error) {
         this.logger.error(

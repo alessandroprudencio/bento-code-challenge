@@ -73,14 +73,16 @@ export default abstract class FetchBaseService {
           : 'Error while fetching data from Bento API';
 
       return new HttpException(
-        { message: `Bento API Error: ${errorMessage}`, statusCode },
+        {
+          message: `Bento API Error: ${errorMessage}`,
+          statusCode,
+        },
         statusCode,
       );
     } else if (error.request) {
       return new HttpException(
         {
-          message:
-            'No response received from Bento API. Please try again later.',
+          message: `No response received from Bento API. Error: ${error.message}`,
           statusCode: HttpStatus.GATEWAY_TIMEOUT,
         },
         HttpStatus.GATEWAY_TIMEOUT,
