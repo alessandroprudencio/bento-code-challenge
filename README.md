@@ -41,7 +41,7 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
    | `PORT`                    | Application port               | No       | `3000`                     | -                                        |
    | `FIREBASE_PROJECT_ID`     | Firebase project ID            | Yes      | `bento-api-project`        | Firebase Console                         |
    | `FIRESTORE_EMULATOR_HOST` | Firestore Emulator host        | Emulator | `firebase-emulator:8081`   | Keep default for Docker                  |
-   | `BENTO_API_URL`           | Bento API base URL             | Yes      | `https://api.bento.com/v3` | Bento documentation                      |
+   | `BENTO_API_URL`           | Bento API base URL             | Yes      | `https://api.bento.com/v1` | Bento documentation                      |
    | `BENTO_API_TOKEN`         | Bento API authentication token | Yes      | `Bearer eyJhbGci...`       | [See below](#-obtaining-bento_api_token) |
 
 ## 🔑 Obtaining BENTO_API_TOKEN
@@ -52,7 +52,7 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
 4. Copy the `Authorization` header value (Bearer token)
 5. Set in `.env`:
    ```ini
-   BENTO_API_TOKEN=Bearer copied_token_value
+   BENTO_API_TOKEN=copied_token_value
    ```
 
 ### ⚠️ **Important Notes:**
