@@ -25,7 +25,7 @@ export default abstract class FetchBaseService {
 
   protected async makeHttpRequest<TRequest, TResponse>(
     method: 'get' | 'post',
-    url: string,
+    path: string,
     data?: TRequest,
   ): Promise<TResponse> {
     const headers = {
@@ -42,7 +42,7 @@ export default abstract class FetchBaseService {
       this.httpService
         .request<TResponse>({
           method,
-          url,
+          url: `${this.bentoAPI}${path}`,
           ...requestConfig,
         })
         .pipe(
