@@ -15,8 +15,8 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-org/bento-integration.git
-   cd bento-integration
+   git clone https://github.com/alessandroprudencio/bento-api.git
+   cd bento-api
    ```
 
 2. **Install dependencies**
