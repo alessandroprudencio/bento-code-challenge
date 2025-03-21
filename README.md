@@ -22,7 +22,7 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
 2. **Install dependencies**
 
    ```bash
-   npm install
+   yarn
    ```
 
 3. **Environment Configuration**  
@@ -41,9 +41,9 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
    | `FIREBASE_PROJECT_ID`     | Firebase project ID            | Yes      | `bento-api-project`        | Firebase Console                         |
    | `FIRESTORE_EMULATOR_HOST` | Firestore Emulator host        | Yes      | `firebase-emulator:8081`   | Keep default for Docker                  |
    | `BENTO_API_URL`           | Bento API base URL             | Yes      | `https://api.bento.com/v1` | Bento documentation                      |
-   | `BENTO_API_TOKEN`         | Bento API authentication token | Yes      | `Bearer eyJhbGci...`       | [See below](#-obtaining-bento_api_token) |
+   | `BENTO_API_TOKEN`         | Bento API authentication token | Yes      | `eyJhbGciOiJSUz...`        | [See below](#-obtaining-bento_api_token) |
 
-## 🔑 Obtaining BENTO_API_TOKEN
+### 🔑 Obtaining BENTO_API_TOKEN
 
 1. Login to Bento web interface
 2. Open Chrome DevTools (F12) → Network tab
@@ -54,25 +54,7 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
    BENTO_API_TOKEN=copied_token_value
    ```
 
-## 🐳 Docker Services
-
-### Service Architecture
-
-```yaml
-services:
-  firebase-emulator:
-    ports:
-      - 8081:8081 # Firebase Emulator
-      - 4000:4000 # Emulator UI
-      - 9150:9150 # gRPC
-      - 9000:9001 # Realtime Database
-
-  bento-api:
-    ports:
-      - 3001:3000 # NestJS Application
-```
-
-### Start Services
+### 🐳 Start Services
 
 ```bash
 docker-compose up --build
@@ -83,13 +65,7 @@ docker-compose up --build
 ### Local Development
 
 ```bash
-npm run start:dev
-```
-
-### Docker Development
-
-```bash
-docker-compose up bento-api --build
+yarn start:dev
 ```
 
 ### Key Endpoints
