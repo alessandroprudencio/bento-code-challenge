@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Firestore } from '@google-cloud/firestore';
-import { BaseFirestoreRepository } from 'src/firestore/repositories/base.repository';
+import { BaseFirestoreRepository } from '../../firestore/repositories/base.repository';
 import { DeliveryFeeEntity } from '../entities/delivery-fee.entity';
 
 @Injectable()

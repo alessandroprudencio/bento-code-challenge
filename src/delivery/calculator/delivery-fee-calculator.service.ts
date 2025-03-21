@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   convertFeeInDollars,
   roundToTwoDecimals,
-} from 'src/common/utils/financial-utils';
+} from '../../common/utils/financial-utils';
 import { IDeliveryFeeCalculator } from '../interfaces/delivery-fee-calculator.interface';
 
 @Injectable()

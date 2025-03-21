@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QueryLastRequestsDto } from './dto/query-last-requests.dto';
-import { DeliveryFeeRepository } from 'src/delivery/repositories/delivery-fee.repository';
+import { DeliveryFeeRepository } from '../delivery/repositories/delivery-fee.repository';
 
 @Injectable()
 export class RequestsService {

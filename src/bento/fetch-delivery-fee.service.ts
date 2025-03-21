@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IDeliveryFeeResponse } from './interfaces/delivery-fee.interface';
 import FetchBaseService from './fetch-base.service';
 import { IDeliveryFeeRequest } from './interfaces/delivery-fee-request.interface';
-import { DeliveryFeePayloadDto } from 'src/delivery/dto/delivery-fee-payload.dto';
+import { DeliveryFeePayloadDto } from '../delivery/dto/delivery-fee-payload.dto';
 
 @Injectable()
 export class FetchDeliveryFeeService extends FetchBaseService {
