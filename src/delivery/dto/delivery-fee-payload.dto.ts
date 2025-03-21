@@ -2,7 +2,25 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class AddressDto {
+class AddressToDto {
+  @ApiProperty({
+    description: 'Latitude of the address',
+    example: 19.280354483797733,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  lat: number;
+
+  @ApiProperty({
+    description: 'Longitude of the address',
+    example: -81.37386862188578,
+  })
+  @IsNumber()
+  @Type(() => Number)
+  lng: number;
+}
+
+class AddressFromDto {
   @ApiProperty({ description: 'Latitude of the address', example: 19.3331008 })
   @IsNumber()
   @Type(() => Number)
@@ -17,20 +35,20 @@ class AddressDto {
   lng: number;
 }
 
-class AddressFromDto {
+class AddressFromCoordinateDto {
   @ApiProperty({ description: 'Coordinates of the origin address' })
   @ValidateNested()
-  @Type(() => AddressDto)
-  coordinates: AddressDto;
+  @Type(() => AddressFromDto)
+  coordinates: AddressFromDto;
 }
 
-class AddressToDto {
+class AddressToCoordinateDto {
   @ApiProperty({
     description: 'Adjusted coordinates of the destination address',
   })
   @ValidateNested()
-  @Type(() => AddressDto)
-  coordinatesAdjustment: AddressDto;
+  @Type(() => AddressToDto)
+  coordinatesAdjustment: AddressToDto;
 }
 
 class MerchantDto {
@@ -56,15 +74,15 @@ export class DeliveryFeePayloadDto {
     description: 'Origin address details',
   })
   @ValidateNested()
-  @Type(() => AddressFromDto)
-  addressFrom: AddressFromDto;
+  @Type(() => AddressFromCoordinateDto)
+  addressFrom: AddressFromCoordinateDto;
 
   @ApiProperty({
     description: 'Destination address details',
   })
   @ValidateNested()
-  @Type(() => AddressToDto)
-  addressTo: AddressToDto;
+  @Type(() => AddressToCoordinateDto)
+  addressTo: AddressToCoordinateDto;
 
   @ApiProperty({
     description: 'Merchant details',
