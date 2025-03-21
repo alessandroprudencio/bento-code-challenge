@@ -97,12 +97,6 @@ docker-compose up bento-api --build
 - API Docs: `http://localhost:3001/api/docs`
 - Firebase UI: `http://localhost:4000`
 
-## 🧪 Testing API
-
-```bash
-curl -X GET http://localhost:3001/api/delivery-fees
-```
-
 ## 🚨 Troubleshooting
 
 **Common Issues:**
