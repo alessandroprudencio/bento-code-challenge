@@ -8,7 +8,6 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
 
 - Node.js v20+
 - Docker & Docker Compose
-- Firebase CLI (optional for emulator UI)
 - Bento API account credentials
 
 ## ⚙️ Environment Setup
