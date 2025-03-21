@@ -39,7 +39,7 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
    | `NODE_ENV`                | Execution environment          | No       | `development`              | -                                        |
    | `PORT`                    | Application port               | No       | `3000`                     | -                                        |
    | `FIREBASE_PROJECT_ID`     | Firebase project ID            | Yes      | `bento-api-project`        | Firebase Console                         |
-   | `FIRESTORE_EMULATOR_HOST` | Firestore Emulator host        | Emulator | `firebase-emulator:8081`   | Keep default for Docker                  |
+   | `FIRESTORE_EMULATOR_HOST` | Firestore Emulator host        | Yes      | `firebase-emulator:8081`   | Keep default for Docker                  |
    | `BENTO_API_URL`           | Bento API base URL             | Yes      | `https://api.bento.com/v1` | Bento documentation                      |
    | `BENTO_API_TOKEN`         | Bento API authentication token | Yes      | `Bearer eyJhbGci...`       | [See below](#-obtaining-bento_api_token) |
 
