@@ -5,6 +5,6 @@ import FetchBaseService from './fetch-base.service';
 @Injectable()
 export class FetchUserProfileService extends FetchBaseService {
   fetch(): Promise<IUserProfile> {
-    return this.makeHttpRequest<void, IUserProfile>('get', '/users/profile');
+    return this.httpClient.request<void, IUserProfile>('get', '/users/profile');
   }
 }

@@ -3,6 +3,8 @@ import { FetchDeliveryFeeService } from './fetch-delivery-fee.service';
 import { FetchUserProfileService } from './fetch-user-profile.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { HttpClientService } from './http-client.service';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Global()
 @Module({
@@ -16,7 +18,12 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [],
-  providers: [FetchDeliveryFeeService, FetchUserProfileService],
+  providers: [
+    FetchDeliveryFeeService,
+    FetchUserProfileService,
+    HttpClientService,
+    ErrorHandlerService,
+  ],
   exports: [FetchDeliveryFeeService, FetchUserProfileService],
 })
 export class BentoModule {}
