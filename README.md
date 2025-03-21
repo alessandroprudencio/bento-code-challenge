@@ -54,29 +54,6 @@ A NestJS application integrating with Bento API and Firebase emulator suite.
    BENTO_API_TOKEN=copied_token_value
    ```
 
-### ⚠️ **Important Notes:**
-
-- **Permissions**: The token inherits all permissions of the authenticated account
-- **Validity**: Tokens expire after 1 hour of inactivity
-- **Security**: Never expose/share this token publicly
-
----
-
-### 🔄 **How to Revoke the Token:**
-
-1. Visit: [Google Account Security](https://myaccount.google.com/security)
-2. Navigate to "Third-party apps with account access"
-3. Revoke access for "Firebase CLI"
-
----
-
-### 📚 **Official Documentation:**
-
-- [Firebase CI Login Documentation](https://firebase.google.com/docs/cli#cli-ci-systems)
-- [Managing API Keys & Tokens](https://firebase.google.com/docs/projects/api-keys)
-
----
-
 ## 🐳 Docker Services
 
 ### Service Architecture
